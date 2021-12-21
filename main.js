@@ -21,8 +21,7 @@
 
 const ratesList = {}
 const ratesWrap = document.querySelector('#rates')
-const rateMarkup = function(valute){
-	// console.log(valute.USD)
+const rateMarkup = valute => {
 	return `
 		<div class="col-12 col-sm-4">
 			<div class="course-item card card-body">
@@ -32,7 +31,13 @@ const rateMarkup = function(valute){
 		</div>
 	`
 }
-const getCurrencies = async function(){
+const printMurkup = () => {
+	for(valute in ratesList){
+		console.dir(ratesList[valute])
+		ratesWrap.innerHTML += rateMarkup(ratesList[valute])
+	}
+}
+const getCurrencies = async () => {
 	const response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js') //Response
 	const obj = await response.json() //Object
 	ratesList.USD = obj.Valute.USD
@@ -40,12 +45,7 @@ const getCurrencies = async function(){
 	ratesList.GBP = obj.Valute.GBP	
 	printMurkup()
 }
-const printMurkup = async function(){
-	for(valute in ratesList){
-		console.dir(ratesList[valute])
-		ratesWrap.innerHTML += rateMarkup(ratesList[valute])
-	}
-}
+
 
 getCurrencies()
 
