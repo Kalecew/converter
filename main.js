@@ -21,20 +21,49 @@
 
 const ratesList = {}
 const ratesWrap = document.querySelector('#rates')
+const input = document.querySelector('#input')
+const result = document.querySelector('#result')
+const selectResult = document.querySelector('#selectResult')
+const maxLengtText = 20
+const trend = (current, previous) => {
+	if (current > previous) return '▲';
+	if (current < previous) return '▼';
+	return '';
+}
+const trendColor = (current, previous) => {
+	if (current > previous) return ' top';
+	if (current < previous) return ' bottom';
+	return '';
+}
+const shorten = (text) => {
+    if (text.length > maxLengtText) {
+        text = text.substr(0,maxLengtText) + "...";
+    }
+    return text;
+}
 const rateMarkup = valute => {
 	return `
 		<div class="col-12 col-sm-4">
 			<div class="course-item card card-body">
 				<div class="course-item-title">Курс ${valute.CharCode}</div>
-				<div class="course-item-value">${valute.Value}</div>
+				<div class="course-item-value ${trendColor(valute.Value,valute.Previous)}">
+					${valute.Value.toFixed(2)}
+					<span class="triangle">${trend(valute.Value,valute.Previous)}</span>
+				</div>
 			</div>
 		</div>
 	`
 }
+const selectResultMarkup = valute => {
+	return `
+		<option class="option" value="${valute.CharCode}">
+			${valute.CharCode} — ${shorten(valute.Name)}
+		</option>`
+}
 const printMurkup = () => {
 	for(valute in ratesList){
-		console.dir(ratesList[valute])
 		ratesWrap.innerHTML += rateMarkup(ratesList[valute])
+		selectResult.innerHTML += selectResultMarkup(ratesList[valute])
 	}
 }
 const getCurrencies = async () => {
@@ -42,12 +71,22 @@ const getCurrencies = async () => {
 	const obj = await response.json() //Object
 	ratesList.USD = obj.Valute.USD
 	ratesList.EUR = obj.Valute.EUR
-	ratesList.GBP = obj.Valute.GBP	
-	printMurkup()
+	ratesList.GBP = obj.Valute.GBP		
 }
+const convert = () => {
+	result.value = (parseFloat(input.value) / ratesList[selectResult.value].Value).toFixed(2)
+}
+const init = async () => {
+	await getCurrencies()
+	printMurkup()
+	convert()
+}
+input.oninput = convert
+selectResult.oninput = convert
 
 
-getCurrencies()
+init()
+
 
 
 // console.log(ratesList)

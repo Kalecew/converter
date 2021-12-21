@@ -6,11 +6,19 @@
     font-size: 28px;
     font-weight: 300;
 }
-
-.course-item-value.top {
-    color: rgb(255, 51, 51);
+.triangle{
+    font-size: 20px;
+}
+.option{
+    max-width: 215px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .course-item-value.bottom {
+    color: rgb(255, 51, 51);
+}
+
+.course-item-value.top {
     color: rgb(19, 189, 61);
 }
