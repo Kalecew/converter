@@ -76,12 +76,16 @@ const getCurrencies = async () => {
 const convert = () => {
 	result.value = (parseFloat(input.value) / ratesList[selectResult.value].Value).toFixed(2)
 }
+const convertReverse = () => {
+	input.value = (parseFloat(result.value) * ratesList[selectResult.value].Value).toFixed(2)
+}
 const init = async () => {
 	await getCurrencies()
 	printMurkup()
 	convert()
 }
 input.oninput = convert
+result.oninput = convertReverse
 selectResult.oninput = convert
 
 
