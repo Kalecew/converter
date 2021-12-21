@@ -87,10 +87,4 @@ const init = async () => {
 input.oninput = convert
 result.oninput = convertReverse
 selectResult.oninput = convert
-
-
 init()
-
-
-
-// console.log(ratesList)
