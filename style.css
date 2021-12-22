@@ -9,11 +9,6 @@
 .triangle{
     font-size: 20px;
 }
-.option{
-    max-width: 215px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 .course-item-value.bottom {
     color: rgb(255, 51, 51);
